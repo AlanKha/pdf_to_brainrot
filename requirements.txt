@@ -1,0 +1,10 @@
+# Core Dependencies
+edge-tts>=7.0.0
+moviepy>=1.0.3
+ddgs>=8.0.1
+requests>=2.32.3
+yt-dlp>=2025.11.12
+
+# Optional / Helper
+pydub>=0.25.1
+pillow>=10.0.0
