@@ -7,13 +7,17 @@ class DialogueItem(TypedDict):
     image_search: str
     image: str
 
+
 # Video Settings
-VIDEO_TITLE: str = "Chapter 6: CPU mechanisms"
+VIDEO_TITLE: str = "Chapter 7: CPU Scheduling"
 TITLE_SOUND_PATH: str = "image_assests/title_sound.mp3"
 
 # File Paths
 VIDEO_TEMPLATE_PATH: str = "video_assests/minecraft_background.mp4"
-OUTPUT_VIDEO_PATH: str = f"output_videos/{VIDEO_TITLE.replace(' ', '_')}.mp4"
+safe_title = (
+    VIDEO_TITLE.replace(" ", "_").replace(":", "_").replace("/", "_").replace("\\", "_")
+)
+OUTPUT_VIDEO_PATH: str = f"output_videos/{safe_title}.mp4"
 AUDIO_ASSETS_DIR: str = "audio_assests"
 IMAGE_ASSETS_DIR: str = "image_assests"
 DOWNLOADED_IMAGES_DIR: str = "downloaded_images"
@@ -24,86 +28,128 @@ RUNTIME_LOGS_DIR: str = "runtime_logs"
 DIALOGUE: List[DialogueItem] = [
     {
         "character": "Peter",
-        "sentence": "Stewie, I'm reading this chapter on Limited Direct Execution and it sounds like a mob hit. Are we executing people directly?",
-        "image_search": "Peter Griffin mobster suit holding tommy gun",
+        "sentence": "Okay Stewie, 'Scheduling'. I know this one. It's like when Lois tells me I have to go to the clam at 8, but I actually go at 5.",
+        "image_search": "Peter Griffin looking at a calendar confused",
         "image": "peter.png",
     },
     {
         "character": "Stewie",
-        "sentence": "No, you dullard. It is the strategy the OS uses to run programs efficiently. Direct Execution means the program runs directly on the CPU for speed. The Limited part is the chains the OS puts on it so it doesn't destroy the machine.",
-        "image_search": "dog on a leash limitations diagram",
+        "sentence": "Not quite, you scheduling disaster. We are talking about OS Scheduling Policies. The logic used to decide which process gets the CPU next.",
+        "image_search": "cpu scheduling process queue diagram",
+        "image": "stewie.png",
+    },
+    {
+        "character": "Stewie",
+        "sentence": "We start with **Workload Assumptions**. Imagine a perfect world where every job arrives at the same time and we know exactly how long they take.",
+        "image_search": "perfect world utopia cartoon",
         "image": "stewie.png",
     },
     {
         "character": "Peter",
-        "sentence": "Chains? You mean like User Mode and Kernel Mode? Is User Mode where I get to do whatever I want?",
-        "image_search": "baby in a playpen vs office desk",
+        "sentence": "Easy. Just let the first guy in line go first. **FIFO**. First In, First Out. Like the line at the buffet.",
+        "image_search": "people waiting in line buffet cartoon",
         "image": "peter.png",
     },
     {
         "character": "Stewie",
-        "sentence": "Quite the opposite. User Mode is the playpen. You are restricted. You cannot touch the hardware directly. Kernel Mode is the parent with the keys to the house.",
-        "image_search": "user mode vs kernel mode privilege rings",
+        "sentence": "A primitive approach. But imagine if you, a man of considerable girth, are at the front of the line and take 100 minutes to eat.",
+        "image_search": "peter griffin eating slowly at buffet",
+        "image": "stewie.png",
+    },
+    {
+        "character": "Stewie",
+        "sentence": "Everyone behind you waits forever. This is the **Convoy Effect**. It ruins **Turnaround Time**, which is the metric measuring how long it takes to finish a job from when it arrives.",
+        "image_search": "convoy effect scheduling diagram truck blocking cars",
         "image": "stewie.png",
     },
     {
         "character": "Peter",
-        "sentence": "So if I'm in the playpen, User Mode, and I want to write to the hard disk, what do I do? Scream until Mom comes?",
-        "image_search": "screaming baby attention",
+        "sentence": "Okay, so we let the skinny guys eat first? **Shortest Job First**?",
+        "image_search": "small person skipping line in front of giant",
         "image": "peter.png",
     },
     {
         "character": "Stewie",
-        "sentence": "Essentially. You perform a System Call, like open or write. To do this, your code executes a special TRAP instruction.",
-        "image_search": "trap instruction system call diagram",
+        "sentence": "Exactly. **SJF** is optimal for Turnaround Time. But it has a flaw. It is **Non-Preemptive**.",
+        "image_search": "sjf scheduling gantt chart",
+        "image": "stewie.png",
+    },
+    {
+        "character": "Stewie",
+        "sentence": "If a long job starts, and a short job arrives one second later, the short job is stuck waiting until the big one finishes.",
+        "image_search": "person waiting impatiently watch",
         "image": "stewie.png",
     },
     {
         "character": "Peter",
-        "sentence": "It's a trap! So I jump into the Kernel, do the work, and then what? Do I stay there?",
-        "image_search": "admiral ackbar its a trap meme",
+        "sentence": "So we just kick the big guy off the chair! Preempt him!",
+        "image_search": "peter griffin fighting chicken",
         "image": "peter.png",
     },
     {
         "character": "Stewie",
-        "sentence": "No. The OS executes a Return-from-Trap instruction. It lowers the privilege level back to User Mode and resumes your code. It uses a Trap Table set up at boot time to know exactly where to jump in the kernel code.",
-        "image_search": "trap table operating system diagram",
+        "sentence": "Violence is the answer! That is **STCF**: Shortest Time-to-Completion First. It adds preemption.",
+        "image_search": "stcf scheduling preemption diagram",
+        "image": "stewie.png",
+    },
+    {
+        "character": "Stewie",
+        "sentence": "If a new job arrives that is shorter than what is *left* of the current job, the OS switches immediately.",
+        "image_search": "context switch cpu diagram",
         "image": "stewie.png",
     },
     {
         "character": "Peter",
-        "sentence": "Okay, but what if a program is being a jerk? What if it just loops forever and never calls a Trap? Does the computer just freeze?",
-        "image_search": "computer frozen blue screen of death",
+        "sentence": "But wait, what if I'm typing on my keyboard and the computer ignores me because it's doing a 'long job'? I hate lag.",
+        "image_search": "peter griffin angry at computer lag",
         "image": "peter.png",
     },
     {
         "character": "Stewie",
-        "sentence": "That was the flaw of the old Cooperative Approach. To fix this, we use the Timer Interrupt. It is a hardware device that punches the CPU in the face every few milliseconds to give control back to the OS.",
-        "image_search": "timer interrupt hardware diagram",
+        "sentence": "Ah, you are concerned with **Response Time**. STCF is bad for that. For interactivity, we need **Round Robin**.",
+        "image_search": "round robin scheduling circle diagram",
+        "image": "stewie.png",
+    },
+    {
+        "character": "Stewie",
+        "sentence": "We slice time into quantum chunks. Every job gets a slice, then we switch. It feels like everything is running at once.",
+        "image_search": "slicing a pie round robin analogy",
         "image": "stewie.png",
     },
     {
         "character": "Peter",
-        "sentence": "So the OS takes control back by force. Then it switches to another process? Is that the Context Switch?",
-        "image_search": "wrestler tagging partner in ring",
+        "sentence": "So Round Robin is the best! Everyone gets a trophy!",
+        "image_search": "participation trophy cartoon",
         "image": "peter.png",
     },
     {
         "character": "Stewie",
-        "sentence": "Precisely. A Context Switch is when the OS saves the register values of the old process onto its Kernel Stack, and restores the values of the new process. It switches the execution flow entirely.",
-        "image_search": "context switch process control block diagram",
+        "sentence": "No, you fool. There is a trade-off. Round Robin is great for Response Time, but terrible for Turnaround Time.",
+        "image_search": "trade off scale fairness vs performance",
+        "image": "stewie.png",
+    },
+    {
+        "character": "Stewie",
+        "sentence": "It stretches every job out to the very end. You can't have your cake and eat it too.",
+        "image_search": "peter griffin eating cake",
         "image": "stewie.png",
     },
     {
         "character": "Peter",
-        "sentence": "Wait, saving and restoring... that takes time. Is it slow?",
-        "image_search": "sloth moving slowly",
+        "sentence": "One last thing. What about when the computer is waiting for the hard drive? That takes forever.",
+        "image_search": "hard drive loading spinner",
         "image": "peter.png",
     },
     {
         "character": "Stewie",
-        "sentence": "It has overhead, yes. But it happens in microseconds. To you, it looks like everything is running at once. It is the magic of Time Sharing.",
-        "image_search": "time sharing cpu scheduling diagram",
+        "sentence": "That is **I/O Overlap**. The Scheduler treats CPU bursts as separate jobs.",
+        "image_search": "cpu io burst overlap diagram",
+        "image": "stewie.png",
+    },
+    {
+        "character": "Stewie",
+        "sentence": "When a process initiates I/O, it is Blocked. The OS immediately runs something else so the CPU isn't wasted. Efficiency, Peter, efficiency.",
+        "image_search": "blocked process state diagram",
         "image": "stewie.png",
     },
 ]

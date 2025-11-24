@@ -53,6 +53,11 @@ def setup_directories() -> None:
 
     os.makedirs(RUNTIME_LOGS_DIR, exist_ok=True)
 
+    # Create output_videos directory if it doesn't exist
+    output_dir = os.path.dirname(OUTPUT_VIDEO_PATH)
+    if output_dir:
+        os.makedirs(output_dir, exist_ok=True)
+
 
 def main() -> None:
     # 1. Setup
