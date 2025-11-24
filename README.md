@@ -131,6 +131,12 @@ pdf_to_brainrot/
    - Add background video to `video_assests/`:
      - `minecraft_background.mp4` or `subway_surfers.mp4`
 
+     **Tip:** You can download a Minecraft parkour background video using the installed `yt-dlp` tool:
+
+     ```bash
+     yt-dlp -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' "https://www.youtube.com/watch?v=tCBOhczn6Ok" -o "video_assests/minecraft_background.mp4"
+     ```
+
 2. **Edit the dialogue script**
    Open `config.py` and modify the `DIALOGUE` list:
 

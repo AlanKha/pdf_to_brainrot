@@ -1,0 +1,17 @@
+.env
+.gitignore
+audio_assests/
+video_assests/
+output_final_video.mp4
+runtime_logs/
+archives_audios/
+downloaded_images/
+pycache/
+*.pyc
+*.pyo
+*.pyd
+*.pyw
+venv/
+*.log
+output_videos/
+.ruff_cache/
