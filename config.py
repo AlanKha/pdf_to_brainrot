@@ -6,119 +6,104 @@ class DialogueItem(TypedDict):
     sentence: str
     image_search: str
     image: str
-    id: int | None
 
+# Video Settings
+VIDEO_TITLE: str = "Chapter 6: CPU mechanisms"
+TITLE_SOUND_PATH: str = "image_assests/title_sound.mp3"
 
 # File Paths
 VIDEO_TEMPLATE_PATH: str = "video_assests/minecraft_background.mp4"
-OUTPUT_VIDEO_PATH: str = "output_final_video.mp4"
+OUTPUT_VIDEO_PATH: str = f"output_videos/{VIDEO_TITLE.replace(' ', '_')}.mp4"
 AUDIO_ASSETS_DIR: str = "audio_assests"
 IMAGE_ASSETS_DIR: str = "image_assests"
 DOWNLOADED_IMAGES_DIR: str = "downloaded_images"
 RUNTIME_LOGS_DIR: str = "runtime_logs"
 
-# Video Settings
-VIDEO_TITLE: str = "Operating Systems 101"
-TITLE_SOUND_PATH: str = "image_assests/title_sound.mp3"
 
 # Dialogue Data
 DIALOGUE: List[DialogueItem] = [
     {
         "character": "Peter",
-        "sentence": "So, a 'process' is basically just a program that's actually doing something. Like me when I'm awake versus me on the couch.",
-        "image_search": "process vs program diagram",
+        "sentence": "Stewie, I'm reading this chapter on Limited Direct Execution and it sounds like a mob hit. Are we executing people directly?",
+        "image_search": "Peter Griffin mobster suit holding tommy gun",
         "image": "peter.png",
-        "id": None,
     },
     {
         "character": "Stewie",
-        "sentence": "A crude analogy, but accurate. The program on the disk is lifeless bytes. The OS loads it into memory and gives it life. It’s the Frankenstein of computing.",
-        "image_search": "operating system loading program into memory",
+        "sentence": "No, you dullard. It is the strategy the OS uses to run programs efficiently. Direct Execution means the program runs directly on the CPU for speed. The Limited part is the chains the OS puts on it so it doesn't destroy the machine.",
+        "image_search": "dog on a leash limitations diagram",
         "image": "stewie.png",
-        "id": None,
     },
     {
         "character": "Peter",
-        "sentence": "But wait, I got a browser, a game, and my email open. How does the computer run all that at once? Does it have a hundred tiny brains?",
-        "image_search": "multitasking operating system processes diagram",
+        "sentence": "Chains? You mean like User Mode and Kernel Mode? Is User Mode where I get to do whatever I want?",
+        "image_search": "baby in a playpen vs office desk",
         "image": "peter.png",
-        "id": None,
     },
     {
         "character": "Stewie",
-        "sentence": "No, you simpleton. It's an illusion created by 'virtualizing' the CPU. It creates a virtual CPU for every process.",
-        "image_search": "cpu virtualization illustration",
+        "sentence": "Quite the opposite. User Mode is the playpen. You are restricted. You cannot touch the hardware directly. Kernel Mode is the parent with the keys to the house.",
+        "image_search": "user mode vs kernel mode privilege rings",
         "image": "stewie.png",
-        "id": None,
     },
     {
         "character": "Peter",
-        "sentence": "Virtualizing? Is that like when I pretend to listen to Lois while watching TV?",
-        "image_search": "virtual cpu diagram",
+        "sentence": "So if I'm in the playpen, User Mode, and I want to write to the hard disk, what do I do? Scream until Mom comes?",
+        "image_search": "screaming baby attention",
         "image": "peter.png",
-        "id": None,
     },
     {
         "character": "Stewie",
-        "sentence": "In a way. It's called Time Sharing. The OS runs one process, stops it, runs another, and switches so fast you think they're all running at once.",
-        "image_search": "time sharing operating system diagram",
+        "sentence": "Essentially. You perform a System Call, like open or write. To do this, your code executes a special TRAP instruction.",
+        "image_search": "trap instruction system call diagram",
         "image": "stewie.png",
-        "id": None,
     },
     {
         "character": "Peter",
-        "sentence": "Okay, but how does it decide who goes next? Is it a lottery? Do they fight to the death?",
-        "image_search": "cpu scheduling algorithm illustration",
+        "sentence": "It's a trap! So I jump into the Kernel, do the work, and then what? Do I stay there?",
+        "image_search": "admiral ackbar its a trap meme",
         "image": "peter.png",
-        "id": None,
     },
     {
         "character": "Stewie",
-        "sentence": "That brings us to Mechanism versus Policy. The mechanism is the 'how'—like the context switch that swaps them out.",
-        "image_search": "mechanism vs policy in operating system chart",
+        "sentence": "No. The OS executes a Return-from-Trap instruction. It lowers the privilege level back to User Mode and resumes your code. It uses a Trap Table set up at boot time to know exactly where to jump in the kernel code.",
+        "image_search": "trap table operating system diagram",
         "image": "stewie.png",
-        "id": None,
     },
     {
         "character": "Peter",
-        "sentence": "And the policy is the 'which'? Like deciding whether to eat a donut or a bagel first?",
-        "image_search": "cpu scheduling policy decision",
+        "sentence": "Okay, but what if a program is being a jerk? What if it just loops forever and never calls a Trap? Does the computer just freeze?",
+        "image_search": "computer frozen blue screen of death",
         "image": "peter.png",
-        "id": None,
     },
     {
         "character": "Stewie",
-        "sentence": "Precisely. The Scheduler uses policy to decide which process gets the CPU based on history or performance metrics.",
-        "image_search": "scheduler algorithm process selection",
+        "sentence": "That was the flaw of the old Cooperative Approach. To fix this, we use the Timer Interrupt. It is a hardware device that punches the CPU in the face every few milliseconds to give control back to the OS.",
+        "image_search": "timer interrupt hardware diagram",
         "image": "stewie.png",
-        "id": None,
     },
     {
         "character": "Peter",
-        "sentence": "Now, what about the stuff inside? The text says something about a Stack and a Heap. Sounds like my laundry room.",
-        "image_search": "stack vs heap memory diagram",
+        "sentence": "So the OS takes control back by force. Then it switches to another process? Is that the Context Switch?",
+        "image_search": "wrestler tagging partner in ring",
         "image": "peter.png",
-        "id": None,
     },
     {
         "character": "Stewie",
-        "sentence": "The Stack manages local variables and function calls. The Heap is for dynamic memory, like when you need extra space for your stupidity.",
-        "image_search": "memory stack and heap layout",
+        "sentence": "Precisely. A Context Switch is when the OS saves the register values of the old process onto its Kernel Stack, and restores the values of the new process. It switches the execution flow entirely.",
+        "image_search": "context switch process control block diagram",
         "image": "stewie.png",
-        "id": None,
     },
     {
         "character": "Peter",
-        "sentence": "And if a process finishes but the parent hasn't checked on it yet... it becomes a Zombie?",
-        "image_search": "zombie process operating system diagram",
+        "sentence": "Wait, saving and restoring... that takes time. Is it slow?",
+        "image_search": "sloth moving slowly",
         "image": "peter.png",
-        "id": None,
     },
     {
         "character": "Stewie",
-        "sentence": "Yes, a Zombie state. Dead, but occupying a slot in the process table until the parent calls wait(). Much like you at a family gathering.",
-        "image_search": "process table with zombie process",
+        "sentence": "It has overhead, yes. But it happens in microseconds. To you, it looks like everything is running at once. It is the magic of Time Sharing.",
+        "image_search": "time sharing cpu scheduling diagram",
         "image": "stewie.png",
-        "id": None,
     },
 ]
