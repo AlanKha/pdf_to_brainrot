@@ -3,6 +3,7 @@ import os
 import logging
 import edge_tts
 from config import AUDIO_ASSETS_DIR, RUNTIME_LOGS_DIR
+import string
 
 # Define voice mappings
 # Using expressive male voices that are somewhat similar in tone
@@ -59,6 +60,11 @@ class VoiceGenerator:
         Returns the path to the generated audio file.
         """
         try:
+            text = "".join(
+                c
+                for c in text
+                if (c.isalnum() or c in string.punctuation or c.isspace()) and c != "*"
+            )
             # Select voice based on speaker name
             voice = PETER_VOICE if speaker.lower() == "peter" else STEWIE_VOICE
 

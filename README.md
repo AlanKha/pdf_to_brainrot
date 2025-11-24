@@ -27,7 +27,7 @@ Requirements:
 1. Clone the repo  
 2. Make a virtual env and install dependencies:  
 
-   ```
+   ```bash
    python -m venv venv
    source venv/bin/activate  # Or venv\Scripts\activate on Windows
    pip install -r requirements.txt
@@ -39,13 +39,17 @@ Requirements:
    - Put `peter.png`, `stewie.png` in `image_assests/`
    - Put a gameplay video in `video_assests/` (example: `minecraft_background.mp4`)
 
+   ```bash
+   yt-dlp -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' "https://www.youtube.com/watch?v=tCBOhczn6Ok" -o "video_assests/minecraft_background.mp4"
+   ```
+
    *(Optional: Download a Minecraft background with `yt-dlp`)*
 
 5. Edit `config.py` -- the `DIALOGUE` list controls the conversation.
 
 6. Run:
 
-   ```
+   ```bash
    python main.py
    ```
 

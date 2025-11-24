@@ -9,8 +9,8 @@ from moviepy import (
     ImageClip,
     TextClip,
 )
-from moviepy.video.fx import speedx
 import PIL.Image
+import random
 
 if not hasattr(PIL.Image, "ANTIALIAS"):
     PIL.Image.ANTIALIAS = PIL.Image.LANCZOS
@@ -39,10 +39,11 @@ class DynamicVideoEditor:
         self.subtitle_clips: List[TextClip] = []
         self.current_start: float = 0.0
 
-        # Load video - use the full duration to avoid black screens
-        # Skip first 10 seconds to avoid any intro/transition
         full_video = VideoFileClip(video_path)
-        self.video = full_video.subclipped(10, full_video.duration).fx(speedx, 2.0)
+        clipped_video = full_video.subclipped(
+            random.randint(10, 300), full_video.duration
+        )
+        self.video = clipped_video
 
     def create_title_clip(self, text: str, duration: float) -> TextClip:
         return TextClip(
@@ -62,7 +63,12 @@ class DynamicVideoEditor:
 
         # Remove all non-alphanumeric and non-punctuation characters from text, and also remove asterisks
         import string
-        text = "".join(c for c in text if (c.isalnum() or c in string.punctuation or c.isspace()) and c != "*")
+
+        text = "".join(
+            c
+            for c in text
+            if (c.isalnum() or c in string.punctuation or c.isspace()) and c != "*"
+        )
 
         # Wrap text at word boundaries to prevent mid-word breaks
         # Approximate character width based on font size (rough estimate)
