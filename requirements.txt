@@ -1,5 +1,11 @@
+# NOTE: This project requires Python >=3.9 and <3.12 for TTS compatibility
+# If using Python 3.14, create a new venv with: python3.11 -m venv venv
+
 # Core Dependencies
-edge-tts>=7.0.0
+TTS>=0.22.0
+torch>=2.0.0
+transformers==4.35.0  # Pin to 4.35.0 for BeamSearchScorer compatibility with TTS
+torchcodec>=0.8.0  # Required for XTTS v2 model
 moviepy>=1.0.3
 ddgs>=8.0.1
 requests>=2.32.3
